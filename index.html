@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360° Rotating Mop - Buy Sample</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .product-image {
+            width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .buy-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .buy-btn:hover {
+            background-color: #0f75d1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 25px;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .product-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            gap: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .product-row img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-name {
+            font-weight: bold;
+        }
+
+        .product-price {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .qty-control button {
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+
+        .qty-control input {
+            width: 40px;
+            text-align: center;
+        }
+
+        .price-display {
+            font-size: 18px;
+            color: green;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .confirm-btn:hover {
+            background-color: #218838;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f8f8f8;
+        }
+
+        .product-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .thumbnail-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .thumbnail-row img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail-row img:hover {
+            border-color: #1e90ff;
+        }
+
+        .details {
+            padding: 10px 0;
+        }
+
+        .details h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .details p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select,
+        input[type=number] {
+            padding: 8px;
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: #1e90ff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #0f75d1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="product-title">360° Rotating Flat Mop with Bucket</div>
+        <img id="mainImage" class="main-image"
+            src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645224/8_eb729875-5df9-4f0f-9e2b-1d23780666ed_trans_ru7f9u.png" alt="Main Mop Image">
+        <div class="thumbnail-row" id="thumbnails">
+            <!-- 12 صور مبدئية، ممكن تضيف أكتر بنفس النمط -->
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645218/26_1b23b2c7-ee03-44a0-b7e1-74be695b9db6_fyuih8.png"
+                onclick="changeImage(this.src)" alt="Thumb 1">
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645204/14_9830c875-5f3f-4275-a1cb-5628b2b11ca0_trans_xmkmeg.png"
+                onclick="changeImage(this.src)" alt="Thumb 2">
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645224/8_eb729875-5df9-4f0f-9e2b-1d23780666ed_trans_ru7f9u.png"
+                onclick="changeImage(this.src)" alt="Thumb 3">
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645220/7_9efe723e-fa40-47ca-a71d-25062d4a46e4_trans_tu8nfx.png"
+                onclick="changeImage(this.src)" alt="Thumb 4">
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645205/1_0431ebf3-341e-4dc8-bbc6-40370e8b78c0_plm1pa.png"
+                onclick="changeImage(this.src)" alt="Thumb 5">
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645216/2_1926dbf6-0076-43dc-9db7-e8e615d44cd1_trans_aecaeo.png"
+                onclick="changeImage(this.src)" alt="Thumb 6">
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645215/42_3d66fcf2-f86b-4ed2-bf52-34effe8db5bc_de5ruu.png"
+                onclick="changeImage(this.src)" alt="Thumb 7">
+            <img src="https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645215/41_99c138d0-0894-494f-b668-b353945797e0_b4kdtr.png"
+                onclick="changeImage(this.src)" alt="Thumb 8">
+
+        </div>
+
+        <div class="details">
+            <h3>360° Rotating Flat Mop with Bucket</h3>
+            <p>Clean Smarter, Not Harder.
+                The Professional-Grade Mop Trusted by Thousands.
+                </p>
+            <ul>
+                <li>🌀 360° Rotating Head – reaches every corner effortlessly</li>
+                <li>💦 High Water Absorption – deep clean with one swipe</li>
+                <li>🎉 Hands-Free Wringing – no touching dirty water</li>
+                <li>🥇 Compact & Foldable Bucket – easy to store anywhere</li>
+                <li>🌍 Safe on All Floors – wood, tile, laminate & more</li>
+                <li>🔧 Easy to Assemble – ready to use in minutes</li>
+                <li>✨ Minimalist Design – fits any modern home</li>
+                <li>📦 Includes Mop + Bucket Set – everything you need in one box</li>
+            </ul>
+        </div>
+
+        <button class="buy-btn" onclick="openModal()">Buy Sample</button>
+    </div>
+
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+
+            <div id="productList"></div>
+
+            <div class="price-display">Total: $<span id="totalPrice">0.00</span></div>
+            <button class="confirm-btn" onclick="confirmSelection()">Confirm & Continue</button>
+        </div>
+    </div>
+
+    <script>
+
+
+        function openModal() {
+            document.getElementById("productModal").style.display = "flex";
+            const productList = document.getElementById("productList");
+            productList.innerHTML = "";
+            products.forEach(product => {
+                const row = document.createElement("div");
+                row.className = "product-row";
+                row.innerHTML = `
+          <img src="${product.img}" alt="${product.name}">
+          <div class="product-info">
+            <div class="product-name">${product.name}</div>
+            <div class="product-price">$${product.price}</div>
+          </div>
+          <div class="qty-control">
+            <button onclick="changeQty(${product.id}, -1)">-</button>
+            <input type="text" id="qty-${product.id}" value="${product.qty}" readonly>
+            <button onclick="changeQty(${product.id}, 1)">+</button>
+          </div>
+        `;
+                productList.appendChild(row);
+            });
+            updateTotal();
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        function changeQty(id, change) {
+            const product = products.find(p => p.id === id);
+            product.qty += change;
+            if (product.qty < 0) product.qty = 0;
+            document.getElementById(`qty-${id}`).value = product.qty;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            products.forEach(p => total += p.qty * p.price);
+            document.getElementById("totalPrice").innerText = total.toFixed(2);
+        }
+
+        function confirmSelection() {
+            const selectedProducts = products.filter(p => p.qty > 0);
+            localStorage.setItem("productList", JSON.stringify(selectedProducts));
+            window.location.href = "checkputProduct3.html";
+        }
+
+        // __define-ocg__
+        let varOcg = 0;
+
+        function changeImage(src) {
+            document.getElementById("mainImage").src = src;
+        }
+
+        function saveProduct() {
+            const quantity = parseInt(document.getElementById("quantity").value);
+            const color = document.getElementById("color").value;
+            varOcg = quantity;
+
+            const product = {
+                name: "360° Rotating Flat Mop",
+                color: color,
+                quantity: quantity,
+                price: 29.99
+            };
+
+            localStorage.setItem("product", JSON.stringify(product));
+            window.location.href = "checkputProduct3.html";
+        }
+
+        const products = [
+            {
+                id: 1,
+                name: "color : " + " (42x11cm replacement cloth)",
+                img: "111.jpg",
+                qty: 0,
+                price: 25.00
+            },
+            {
+                id: 2,
+                name: "color : " + " (42x11cm replacement cloth 3pcs)",
+                img: "222.jpg",
+                qty: 0,
+                price: 26.00
+            },
+            {
+                id: 3,
+                name: "color : " + " (42x11cm replacement cloth 6pcs)",
+                img: "333.jpg",
+                qty: 0,
+                price: 27.00
+            },
+            {
+                id: 4,
+                name: "color : " + " (42x11cm replacement cloth 10pcs)",
+                img: "444.jpg",
+                qty: 0,
+                price: 28.00
+            },
+            {
+                id: 5,
+                name: "color : " + " (Blue)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643044/3_dcdnvo.png",
+                qty: 0,
+                price: 29.00
+            },
+            {
+                id: 6,
+                name: "color : " + " (Blue Mop Bucket)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643036/4_wpsyel.png",
+                qty: 0,
+                price: 29.00
+            },
+            {
+                id: 7,
+                name: "color : " + " (Blue With 2 Rags)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643053/5_iljmln.png",
+                qty: 0,
+                price: 30.00
+            },
+            {
+                id: 8,
+                name: "color : " + " (Blue With 2 Rags set)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643040/6_avkdlt.png",
+                qty: 0,
+                price: 31.00
+            },
+            {
+                id: 9,
+                name: "color : " + " (Blue With 4 Rags)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643055/7_glpr5p.png",
+                qty: 0,
+                price: 32.00
+            },
+            {
+                id: 10,
+                name: "color : " + " (Blue With 4 Rags set)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643055/7_glpr5p.png",
+                qty: 0,
+                price: 33.00
+            },
+            {
+                id: 11,
+                name: "color : " + " (Blue With 6 Rags)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643054/9_jrcwio.png",
+                qty: 0,
+                price: 34.00
+            },
+            {
+                id: 12,
+                name: "color : " + " (Blue With 6 Rags set)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643057/10_l3od6u.png",
+                qty: 0,
+                price: 35.00
+            },
+            {
+                id: 13,
+                name: "color : " + " (White)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643058/11_twl18i.png",
+                qty: 0,
+                price: 36.00
+            },
+            {
+                id: 14,
+                name: "color : " + " (White Mop Bucket)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643045/12_e8ojhv.png",
+                qty: 0,
+                price: 37.00
+            },
+            {
+                id: 15,
+                name: "color : " + " (White With 2 Rags)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643058/13_dl3bf4.png",
+                qty: 0,
+                price: 38.00
+            },
+            {
+                id: 16,
+                name: "color : " + " (White With 4 Rags)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643061/14_wit7i3.png",
+                qty: 0,
+                price: 39.00
+            },
+            {
+                id: 17,
+                name: "color : " + " (White With 6 Rags)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643065/15_yn57jf.png",
+                qty: 0,
+                price: 40.00
+            },
+            {
+                id: 18,
+                name: "color : " + " (White With 2 Rags set)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643035/16_mbj7th.png",
+                qty: 0,
+                price: 41.00
+            },
+
+            {
+                id: 19,
+                name: "color : " + " (White With 6 Rags set)",
+                img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748643039/17_jihevv.png",
+                qty: 0,
+                price: 43.00
+            }
+        ];
+
+    </script>
+</body>
+
+</html>
