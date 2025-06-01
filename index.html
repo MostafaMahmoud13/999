@@ -196,7 +196,7 @@
             padding: 10px 0;
         }
 
-        .details h1 {
+        .details strong {
             font-size: 24px;
             color: #333;
         }
@@ -299,7 +299,10 @@
 
 <body>
     <div class="container">
-        <div class="product-title">360° Rotating Flat Mop with Bucket</div>
+        <div class="product-title"><strong>360° Rotating Flat Mop with Bucket</strong></div>
+        <div id="rating" style="margin-bottom: 10px;"></div>
+
+          
         <div id="mediaDisplay" style="margin-bottom: 20px;"></div>
 
 
@@ -367,7 +370,13 @@
                 <li>📦 Includes Mop + Bucket Set – everything you need in one box</li>
             </ul>
         </div>
-
+        <div style="margin: 20px 0; text-align: center;">
+            <p style="font-weight: bold; color: #e53935;">
+              🔥 Hurry! Offer ends in <span id="countdown"></span>
+            </p>
+          </div>
+          
+          
         <button class="buy-btn" onclick="openModal()">Buy Sample</button>
     </div>
 
@@ -396,7 +405,10 @@
           <img src="${product.img}" alt="${product.name}">
           <div class="product-info">
             <div class="product-name">${product.name}</div>
-            <div class="product-price">$${product.price}</div>
+            <div class="product-price">
+  <strong style="color: #e53935;">$${product.price.toFixed(2)}</strong>
+  <del style="color: #999; font-size: 14px;">$${product.originalPrice.toFixed(2)}</del>
+</div>
           </div>
           <div class="qty-control">
             <button onclick="changeQty(${product.id}, -1)">-</button>
@@ -409,6 +421,8 @@
             updateTotal();
         }
 
+
+        
         function closeModal() {
             document.getElementById("productModal").style.display = "none";
         }
@@ -524,9 +538,6 @@ muteBtn.setAttribute("data-tooltip", "Mute Video");
 }
 
 
-
-
-
         function changeImage(imgSrc) {
             const container = document.getElementById("mediaDisplay");
             const img = document.createElement("img");
@@ -541,6 +552,62 @@ muteBtn.setAttribute("data-tooltip", "Mute Video");
             container.appendChild(img);
         }
 
+        
+        function randomRating() {
+  const ratingEl = document.getElementById("rating");
+
+  // نجوم من 4.7 إلى 5.0
+  const stars = (Math.random() * 0.3 + 4.7).toFixed(1);
+  const reviews = Math.floor(Math.random() * 3000 + 500); // من 500 إلى 3500
+
+  const fullStars = Math.floor(stars);
+  const halfStar = stars - fullStars >= 0.5;
+
+  let starsHTML = '';
+  for (let i = 0; i < fullStars; i++) starsHTML += '★';
+  if (halfStar) starsHTML += '½';
+
+  ratingEl.innerHTML = `<span style="font-size: 20px; color: #ffc107;">${starsHTML}</span>
+    <span style="font-size: 14px; color: #666;">(${stars}/5 based on ${reviews} reviews)</span>`;
+}
+randomRating();
+
+function startCountdown(durationMinutes) {
+  const now = new Date().getTime();
+  const savedEnd = localStorage.getItem("countdown_end");
+
+  let end;
+  if (savedEnd) {
+    end = parseInt(savedEnd);
+  } else {
+    end = now + durationMinutes * 60 * 1000;
+    localStorage.setItem("countdown_end", end);
+  }
+
+  const countdown = document.getElementById("countdown");
+
+  const interval = setInterval(() => {
+    const current = new Date().getTime();
+    const distance = end - current;
+
+    if (distance <= 0) {
+  // Reset countdown لمدة 15 دقيقة جديدة
+  const newEnd = new Date().getTime() + durationMinutes * 60 * 1000;
+  localStorage.setItem("countdown_end", newEnd);
+  end = newEnd;
+}
+
+
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdown.innerHTML = `${minutes}m ${seconds}s`;
+  }, 1000);
+}
+
+startCountdown(15); // عد تنازلي 15 دقيقة
+
+
 
 
 
@@ -552,126 +619,144 @@ muteBtn.setAttribute("data-tooltip", "Mute Video");
                 name: "color : " + " (42x11cm replacement cloth)",
                 img: "111.jpg",
                 qty: 0,
-                price: 25.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 2,
                 name: "color : " + " (42x11cm replacement cloth 3pcs)",
                 img: "222.jpg",
                 qty: 0,
-                price: 26.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 3,
                 name: "color : " + " (42x11cm replacement cloth 6pcs)",
                 img: "333.jpg",
                 qty: 0,
-                price: 27.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 4,
                 name: "color : " + " (42x11cm replacement cloth 10pcs)",
                 img: "444.jpg",
                 qty: 0,
-                price: 28.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 5,
                 name: "color : " + " (Blue)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748645215/42_3d66fcf2-f86b-4ed2-bf52-34effe8db5bc_de5ruu.png",
                 qty: 0,
-                price: 29.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 6,
                 name: "color : " + " (Blue Mop Bucket)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796176/4_sgz5pf.png",
                 qty: 0,
-                price: 29.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 7,
                 name: "color : " + " (Blue With 2 Rags)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796192/5_p7jb5x.png",
                 qty: 0,
-                price: 30.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 8,
                 name: "color : " + " (Blue With 2 Rags set)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796180/6_wv41dv.png",
                 qty: 0,
-                price: 31.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 9,
                 name: "color : " + " (Blue With 4 Rags)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796197/7_o0mc5c.png",
                 qty: 0,
-                price: 32.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 10,
                 name: "color : " + " (Blue With 4 Rags set)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796179/8_nsahf5.png",
                 qty: 0,
-                price: 33.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 11,
                 name: "color : " + " (Blue With 6 Rags)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796194/9_zber3n.png",
                 qty: 0,
-                price: 34.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 12,
                 name: "color : " + " (Blue With 6 Rags set)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796183/10_o91tna.png",
                 qty: 0,
-                price: 35.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 13,
                 name: "color : " + " (White)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796197/11_gyuen0.png",
                 qty: 0,
-                price: 36.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 14,
                 name: "color : " + " (White Mop Bucket)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796187/12_etdphk.png",
                 qty: 0,
-                price: 37.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 15,
                 name: "color : " + " (White With 2 Rags)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796205/13_qwugjq.png",
                 qty: 0,
-                price: 38.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 16,
                 name: "color : " + " (White With 4 Rags)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796204/14_qyoeo9.png",
                 qty: 0,
-                price: 39.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 17,
                 name: "color : " + " (White With 6 Rags)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796206/15_dd9kpe.png",
                 qty: 0,
-                price: 40.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
             {
                 id: 18,
                 name: "color : " + " (White With 2 Rags set)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796200/16_inhtsi.png",
                 qty: 0,
-                price: 41.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             },
 
             {
@@ -679,7 +764,8 @@ muteBtn.setAttribute("data-tooltip", "Mute Video");
                 name: "color : " + " (White With 6 Rags set)",
                 img: "https://res.cloudinary.com/dbsumfbkh/image/upload/v1748796204/17_eevbmt.png",
                 qty: 0,
-                price: 43.00
+                price: 25.00,           // السعر بعد الخصم (اللي بيتحسب عليه Total)
+                originalPrice: 35.00    // السعر القديم (للعرض فقط)
             }
         ];
 
